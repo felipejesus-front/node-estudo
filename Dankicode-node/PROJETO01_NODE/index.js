@@ -16,7 +16,7 @@ app.set("view engine", "html");
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "/views"));
 
-var tarefas = ["arrumar o quarto", "comprar no super mercado"];
+var tarefas = ["ar rumar o quarto", "comprar no super mercado"];
 
 app.post("/", (req, res) => {
 	tarefas.push(req.body.tarefa);
