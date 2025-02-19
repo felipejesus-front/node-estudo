@@ -75,7 +75,15 @@
     <script>
       var socket = io();
       const name = prompt("What is your name?");
-      alert("welcome to the chat room " + name);
+      socket.emit("new user", name);
+      socket.emit("new user", (userData) => {
+        if (userData.success) {
+          alert("Welcome, " + name);
+        } else {
+          alert("this name is already taken...");
+          window.location.href = "/";
+        }
+      });
 
       const messages = document.querySelector("#messages");
       const form = document.querySelector("#form");
