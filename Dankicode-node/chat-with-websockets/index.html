@@ -76,7 +76,7 @@
       var socket = io();
       const name = prompt("What is your name?");
       socket.emit("new user", name);
-      socket.emit("new user", (userData) => {
+      socket.on("new user", (userData) => {
         if (userData.success) {
           alert("Welcome, " + name);
         } else {

@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
 
 io.on("connection", (socket) => {
   socket.on("new user", (userData) => {
-    if (users.indexOf(userData.username) !== -1) {
+    if (users.indexOf(userData) != -1) {
       socket.emit("new user", { success: false });
     } else {
       users.push(userData);
@@ -23,8 +23,8 @@ io.on("connection", (socket) => {
 
   socket.on("chat message", (msg) => {
     if (
-      users.indexOf(msg.username) !== -1 &&
-      users.indexOf(msg.username) == socketId.indexOf(socket.id)
+      users.indexOf(msg.name) !== -1 &&
+      users.indexOf(msg.name) == socketId.indexOf(socket.id)
     ) {
       io.emit("chat message", msg);
     } else {
