@@ -58,7 +58,7 @@
       }
 
       #messages > li:nth-child(odd) {
-        background: #efefef;
+        background: #ffffff;
       }
     </style>
   </head>
@@ -74,13 +74,37 @@
 
     <script>
       var socket = io();
+      const name = prompt("What is your name?");
+      alert("welcome to the chat room " + name);
 
-      socket.on("conectado", function (msg) {
-        console.log(msg);
+      const messages = document.querySelector("#messages");
+      const form = document.querySelector("#form");
+      const input = document.querySelector("#input");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (input.value) {
+          socket.emit("chat message", { msg: input.value, name });
+          input.value = "";
+        }
       });
 
-      socket.on("usuario conectado", function (msg) {
-        console.log(msg);
+      socket.on("chat message", (msg) => {
+        if (msg.name == name) {
+          //rendering user message
+          const item = document.createElement("li");
+          item.style.backgroundColor = "#565555";
+          item.style.color = "#FFFFFFFF";
+          item.textContent = `${msg.name} says: ${msg.msg}`;
+          messages.appendChild(item);
+          window.scrollTo(0, document.body.scrollHeight);
+        } else {
+          //rendering others users message
+          const item = document.createElement("li");
+          item.textContent = `${msg.name} says: ${msg.msg}`;
+          messages.appendChild(item);
+          window.scrollTo(0, document.body.scrollHeight);
+        }
       });
     </script>
   </body>
